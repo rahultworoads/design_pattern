@@ -634,34 +634,156 @@ public:
 
  int main(){
  	char c;
- 	int number;
+ 	string name;
+ 	string email;
+ 	int user_id;
+ 	int group_id;
+ 	int series_id;
  	while(true){
- 		cout<<"\nInsert ('q') for Query and ('a') Admin actions\n";
- 		c = getchar();
+ 		cout<<"\nInsert a char:\nQuery->q\naction->a\n";
+ 		cin>>c;
  		switch(c){
  			case 'q':{
- 					Admin::Instance()->printAllUsersInSeries(1);
- 			}break;
+ 				cout<<"\nInsert a char:\nprintAllUsersInSeries->a\nprintAllInvitedSeriesOfUser->b\nprintAllUsersOfGroup->c\nprintAllGroupsOfUser->d\nprintAllGroupsForSeries->e\nprintAllSeriesOfGroup->f\n";
+ 				cin>>c;
+ 				switch(c){
 
- 			case 'a':{
- 					cout<<"\npress c->create d-> delete e-> edit \n";
- 					c= getchar();
- 					switch(c){
+ 						case 'a':{	
+ 							cout<<"insert series_id\t";
+ 							cin>>series_id;
+ 							Admin::Instance()->printAllUsersInSeries(series_id);
+
+ 						}break;
+
+ 						case 'b':{	
+ 							cout<<"insert User id\t";
+ 							cin>>user_id;
+ 							Admin::Instance()->printAllInvitedSeriesOfUser(user_id);	
+ 												
+ 						}break;
 
  						case 'c':{
- 							cout<<"create c-> series u->user g->group\n";
- 							
+ 							cout<<"insert Group id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->printAllUsersOfGroup(group_id);				
  						}break;
 
  						case 'd':{
-
+ 							cout<<"insert User id\t";
+ 							cin>>user_id;
+ 							Admin::Instance()->printAllGroupsOfUser(user_id);							
  						}break;
- 						case 'e'{
 
+ 						case 'e':{
+ 							cout<<"insert Series id\t";
+ 							cin>>series_id;
+ 							Admin::Instance()->printAllGroupsForSeries(series_id);
+ 						}break;
+
+ 						case 'f':{	
+ 							cout<<"insert Group id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->printAllSeriesOfGroup(group_id);						
+ 						}break;
+
+ 						default:{}break;
+ 					}
+ 				
+ 			}break;
+
+ 			case 'a':{
+ 					cout<<"\nInsert a char:\nCreateUser->a\ndeleteUser->b\ncreateSeries->c\ndeleteSeries->d\ncreateGroup->e\ndeleteGroup->f\nlinkUserToGroup->g\nUnLinkUserToGroup->h\ninvitesUserToSeries->i\nUnInvitesUserToSeries->j\ninvitesSeriesToGroup->k\nUnIvitesSeriesToGroup->l\n";
+ 					cin>>c;
+ 					switch(c){
+
+ 						case 'a':{
+ 							cout<<"\ninsert name of user and email:\t";
+ 							cin>>name;
+ 							cin>>email;
+ 							cout<<"Created User id: "<<Admin::Instance()->CreateUser(name,email)<<"\n";
+ 						}break;
+
+ 						case 'b':{
+ 							cout<<"insert user id:\t";
+ 							cin>>user_id;
+ 							Admin::Instance()->deleteUser(user_id);	
+ 												
+ 						}break;
+
+ 						case 'c':{
+ 							cout<<"Insert series Name:\t";
+ 							cin>>name;
+ 							cout<<"Created Series Id: "<<Admin::Instance()->createSeries(name)<<"\n";							
+ 						}break;
+
+ 						case 'd':{
+ 							cout<<"insert series id:\t";
+ 							cin>>series_id;
+ 							Admin::Instance()->deleteSeries(series_id);							
+ 						}break;
+
+ 						case 'e':{
+ 							cout<<"Insert group name:\t";
+ 							cin>>name;
+ 							cout<<"Created Group id: "<<Admin::Instance()->createGroup(name)<<"\n";
+ 						}break;
+
+ 						case 'f':{
+ 							cout<<"insert Group id:\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->deleteGroup(group_id);								
+ 						}break;
+
+ 						case 'g':{
+ 							cout<<"insert user id\t";
+ 							cin>>user_id;
+ 							cout<<"insert group_id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->linkUserToGroup(user_id, group_id);							
+ 						}break;
+
+ 						case 'h':{
+ 							cout<<"insert user id\t";
+ 							cin>>user_id;
+ 							cout<<"insert group_id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->UnLinkUserToGroup(user_id, group_id);		
+ 												
+ 						}break;
+
+ 						case 'i':{
+ 							cout<<"insert user id\t";
+ 							cin>>user_id;
+ 							cout<<"insert series_id\t";
+ 							cin>>series_id;
+ 							Admin::Instance()->invitesUserToSeries(user_id,series_id);				
+ 						}break;
+
+ 						case 'j':{
+ 							cout<<"insert user id\t";
+ 							cin>>user_id;
+ 							cout<<"insert series_id\t";
+ 							cin>>series_id;
+ 							Admin::Instance()->UnInvitesUserToSeries(user_id,series_id);							
+ 						}break;
+
+ 						case 'k':{
+ 							cout<<"insert series_id\t";
+ 							cin>>series_id;
+ 							cout<<"insert group_id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->invitesSeriesToGroup(series_id, group_id);
+ 						}break;
+
+ 						case 'l':{
+ 							cout<<"insert series_id\t";
+ 							cin>>series_id;
+ 							cout<<"insert group_id\t";
+ 							cin>>group_id;
+ 							Admin::Instance()->UnIvitesSeriesToGroup(series_id, group_id);							
  						}break;
  						default:{}break;
  					}
- 				}
 
  			}break;
 
