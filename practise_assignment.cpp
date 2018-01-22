@@ -640,7 +640,7 @@ public:
  	int group_id;
  	int series_id;
  	while(true){
- 		cout<<"\nInsert a char:\nQuery->q\naction->a\n";
+ 		cout<<"\nInsert a char:\nQuery->q\nAdmin action->a\n";
  		cin>>c;
  		switch(c){
  			case 'q':{
