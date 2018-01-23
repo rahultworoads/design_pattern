@@ -42,8 +42,9 @@ public:
 
 		 for (group_inivited_series_it = group_inivited_series.begin(); group_inivited_series_it!=group_inivited_series.end();  ++group_inivited_series_it){
 		 	user_inivited_series_it = user_inivited_series.find(*group_inivited_series_it);
-		 	if(user_inivited_series_it == user_inivited_series.end())
-        	cout <<*group_inivited_series_it << " ";
+		 	if(user_inivited_series_it == user_inivited_series.end()){
+        		cout <<*group_inivited_series_it << " ";
+        	}
         }
 
         cout<<"\n";
