@@ -13,6 +13,7 @@ private:
 	std::set<int>groups;
 	std::set<int>user_inivited_series;
 	std::set<int>group_inivited_series;
+	std::map<int,int>series_id_to_group_count;
 
 public:
 	User(int id,string name, string email){
@@ -54,7 +55,7 @@ public:
 
 		set<int>::iterator groups_it; 
 
-		cout<<"UserId: ";
+		cout<<"GroupId: ";
 		 for (groups_it = groups.begin(); groups_it != groups.end();  ++groups_it){
         	cout <<*groups_it << " ";
         }
@@ -91,7 +92,14 @@ public:
 	}
 
 	void addGroupInivitesSeries(int id){
+		if(series_id_to_group_count.find(id) == series_id_to_group_count.end()){
+			series_id_to_group_count.insert(make_pair(id,1));
+		}
+		else{
+			series_id_to_group_count.insert(make_pair(id, ++series_id_to_group_count[id]));
+		}
 		group_inivited_series.insert(id);
+
 	}
 
 	void addGroup(int id){
@@ -108,8 +116,11 @@ public:
 	}
 
 	void deleteGroupInivitesSeries(int id){
-		if(group_inivited_series.find(id) != group_inivited_series.end()){
-			group_inivited_series.erase(id);
+		if(group_inivited_series.find(id) != group_inivited_series.end() && series_id_to_group_count.find(id) != series_id_to_group_count.end()){
+			series_id_to_group_count[id]--;
+			if(series_id_to_group_count[id] == 0){
+				group_inivited_series.erase(id);
+			}
 		}
 		else{
 			cout<<"Group invited Series Id "<<id<<" does not link User id  "<<this->id<<"\n";
@@ -176,7 +187,7 @@ public:
 
 	void printUsers(){
 		set<int>::iterator user_it;
-		cout<<"Users: ";
+		cout<<"UserIds: ";
 		for(user_it = users.begin(); user_it != users.end(); ++user_it){
 			cout<< *user_it<<" ";
 		}
@@ -210,7 +221,7 @@ public:
 	}
 	void deleteGroup(int id){
 		if(groups.find(id) != groups.end()){
-			groups.insert(id);
+			groups.erase(id);
 		}else{
 			cout<<"Users Id "<<id<<" is not part of series Id "<<this->id<<"\n";
 		}
@@ -449,7 +460,6 @@ public:
 		for(it = users.begin(); it != users.end(); ++it){
 			idToUserMap[*it].deleteGroup(id);
 		}
-
 		set<int>series_list = idToGroupMap[id].seriesSet();
 		for(it2 = series_list.begin(); it2 != series_list.end(); ++it2){
 			idToSeriesMap[*it2].deleteGroup(id);
@@ -457,6 +467,7 @@ public:
 				idToUserMap[*it].deleteGroupInivitesSeries(*it2);
 			}
 		}
+		idToGroupMap.erase(id);
 
 	}
 
@@ -686,7 +697,9 @@ public:
  							Admin::Instance()->printAllSeriesOfGroup(group_id);						
  						}break;
 
- 						default:{}break;
+ 						default:{
+ 							cout<<"Please insert correct char\n";
+ 						}break;
  					}
  				
  			}break;
@@ -782,12 +795,15 @@ public:
  							cin>>group_id;
  							Admin::Instance()->UnIvitesSeriesToGroup(series_id, group_id);							
  						}break;
+ 						
  						default:{}break;
  					}
 
  			}break;
 
- 			default: {}break;
+ 			default: {
+ 				cout<<"Please insert correct char\n";
+ 			}break;
  		}
 
  	}
