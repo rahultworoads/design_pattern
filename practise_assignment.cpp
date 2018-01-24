@@ -148,6 +148,10 @@ public:
 	set<int> groupInvitedSeriesSet(){
 		return group_inivited_series;
 	}
+
+	set<int, int>groupsInvitedSeriesIdCount(){
+		return series_id_to_group_count;
+	}
 	
 };
 
@@ -465,6 +469,10 @@ public:
 		for(it2 = series_list.begin(); it2 != series_list.end(); ++it2){
 			idToSeriesMap[*it2].deleteGroup(id);
 			for(it = users.begin(); it != users.end(); ++it){
+				set<int>user_invited_series = idToUserMap[*it].userInvitedSeriesSet();
+				if(user_invited_series.find(*it2) == user_invited_series.end() && ){
+					idToSeriesMap[*it2].deleteUser(*it);
+				}
 				idToUserMap[*it].deleteGroupInivitesSeries(*it2);
 			}
 		}
