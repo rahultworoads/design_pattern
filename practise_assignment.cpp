@@ -149,10 +149,6 @@ public:
 		return group_inivited_series;
 	}
 
-	set<int, int>groupsInvitedSeriesIdCount(){
-		return series_id_to_group_count;
-	}
-	
 };
 
 
@@ -163,6 +159,7 @@ private:
 	int id;
 	std::set<int>groups;
 	std::set<int>users;
+	map<int, int>seriesid_user_count;
 
 public:
 	Series(int id,string name){
@@ -209,12 +206,21 @@ public:
 	}
 
 	void addUser(int id){
+		if(seriesid_user_count.find(id) == seriesid_user_count.end()){
+			seriesid_user_count.insert(make_pair(id,1));
+		}
+		else{
+			seriesid_user_count.insert(make_pair(id, ++seriesid_user_count[id]));
+		}
 		users.insert(id);
 	}
 
 	void deleteUser(int id){
-		if(users.find(id) != users.end()){
-			users.erase(id);
+		if(users.find(id) != users.end() && seriesid_user_count.find(id) != seriesid_user_count.end()){
+			seriesid_user_count[id]--;
+			if(seriesid_user_count[id] == 0){
+				users.erase(id);
+			}
 		}
 		else{
 			cout<<"User id "<<id<<" is not part of series Id "<<this->id<<"\n";
@@ -224,6 +230,7 @@ public:
 	void addGroup(int id){
 		groups.insert(id);
 	}
+	
 	void deleteGroup(int id){
 		if(groups.find(id) != groups.end()){
 			groups.erase(id);
@@ -469,10 +476,7 @@ public:
 		for(it2 = series_list.begin(); it2 != series_list.end(); ++it2){
 			idToSeriesMap[*it2].deleteGroup(id);
 			for(it = users.begin(); it != users.end(); ++it){
-				set<int>user_invited_series = idToUserMap[*it].userInvitedSeriesSet();
-				if(user_invited_series.find(*it2) == user_invited_series.end() && ){
-					idToSeriesMap[*it2].deleteUser(*it);
-				}
+				idToSeriesMap[*it2].deleteUser(*it);
 				idToUserMap[*it].deleteGroupInivitesSeries(*it2);
 			}
 		}
